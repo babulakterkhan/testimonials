@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Image Based Testimonial</title>
+
+<style>
+@page{ size:A4; margin:0; }
+
+body{
+    font-family: Yu Gothic UI Semibold, Yu Gothic UI Semibold;
+    background:#eaeaea;
+    padding:20px;
+}
+
+/* ===== FORM ===== */
+.form{
+    width:360px;
+    background:#fff;
+    padding:15px;
+    margin:auto;
+    border-radius:6px;
+}
+input,button{
+    width:100%;
+    padding:8px;
+    margin:6px 0;
+    font-size:15px;
+}
+button{ cursor:pointer; }
+
+/* ===== CERTIFICATE ===== */
+#cert{
+    width:210mm;
+    height:297mm;
+    margin:auto;
+    display:none;
+    position:relative;
+}
+
+#cert img{
+    width:100%;
+    height:100%;
+}
+
+/* ===== TEXT ON IMAGE ===== */
+.txt{
+    position:absolute;
+    color:#000;
+}
+
+/* 🔧 POSITION (image অনুযায়ী adjust করতে পারো) */
+.para{
+    top:110mm;
+    left:30mm;
+    right:30mm;
+    font-size:18px;
+    line-height:35px;
+    text-align:justify;
+}
+
+.verify{
+    bottom:45mm;
+    left:35mm;
+    font-size:18px;
+}
+
+.principal{
+    bottom:45mm;
+    right:35mm;
+    font-size:18px;
+}
+
+.date{
+    bottom:60mm;
+    left:35mm;
+    font-size:17px;
+}
+
+/* ===== PRINT ===== */
+@media print{
+    body{padding:0;background:none;}
+    .form{display:none;}
+    #cert{display:block;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== FORM ===== -->
+<div class="form">
+    <h3>Student Information</h3>
+
+    <input id="sname" placeholder="Student Name">
+    <input id="fname" placeholder="Father's Name">
+    <input id="mname" placeholder="Mother's Name">
+    <input id="group" placeholder="Group">
+    <input id="year" placeholder="Passing Year">
+    <input id="gpa" placeholder="GPA">
+    <input id="grade" placeholder="Grade (A+)">
+    <input id="roll" placeholder="Roll No">
+    <input id="reg" placeholder="Registration No">
+    <input id="session" placeholder="Session">
+    <input id="board" placeholder="Board">
+    <input id="dob" placeholder="Date of Birth (DD/MM/YYYY)">
+    <input id="issue" type="date">
+
+    <button onclick="generate()">Generate</button>
+    <button onclick="window.print()">Print / Save PDF</button>
+</div>
+
+<!-- ===== CERTIFICATE ===== -->
+<div id="cert">
+    <img src="testimonial-bg.jpg" alt="Testimonial Background">
+
+    <div class="txt para" id="d_para"></div>
+
+    <div class="txt date" id="d_date"></div>
+    <div class="txt verify">Verified by</div>
+    <div class="txt principal">Principal</div>
+</div>
+
+<script>
+function formatDate(d){
+    return d ? new Date(d).toLocaleDateString('en-GB') : '';
+}
+
+function generate(){
+    document.getElementById("cert").style.display="block";
+
+    d_para.innerHTML =
+    `<b>This is to certify that ${sname.value}</b>, Father's name:
+    <b>${fname.value}</b>, Mother's name: <b>${mname.value}</b>,
+    was a student of this college. She passed the
+    <b>Higher Secondary Certificate Examination</b> held in the year
+    <b>${year.value}</b> from <b>${group.value}</b> group.
+    She obtained <b>GPA ${gpa.value}, Grade ${grade.value}</b>,
+    bearing Roll No. <b>${roll.value}</b>,
+    Reg. No. <b>${reg.value}</b>,
+    Session <b>${session.value}</b>,
+    Board <b>${board.value}</b>,
+    Date of Birth <b>${dob.value}</b>.
+    While studying in this college, she did not participate in any work
+    subversive of the state or the college.
+    <br><br>
+    <b>I wish her success and prosperity in life.</b>`;
+
+    d_date.innerText = "Date: " + formatDate(issue.value);
+}
+</script>
+
+</body>
+</html>
