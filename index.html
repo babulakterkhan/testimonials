@@ -4,30 +4,70 @@
 <meta charset="UTF-8">
 <title>Image Based Testimonial</title>
 
+<!-- বাংলা ওয়েব ফন্ট যোগ করুন -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+<link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
+
 <style>
 @page{ size:A4; margin:0; }
 
 body{
-    font-family: Yu Gothic UI Semibold, Yu Gothic UI Semibold;
+    font-family: 'Hind Siliguri', 'SolaimanLipi', sans-serif;
     background:#eaeaea;
     padding:20px;
+    margin:0;
+    display: flex;
+    min-height: 100vh;
 }
 
-/* ===== FORM ===== */
-.form{
-    width:360px;
+/* ===== SIDEBAR FORM ===== */
+.sidebar{
+    width: 300px;
     background:#fff;
     padding:15px;
-    margin:auto;
     border-radius:6px;
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    bottom: 20px;
+    overflow-y: auto;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    z-index: 100;
 }
-input,button{
+
+/* ===== MAIN CONTENT ===== */
+.main-content{
+    flex: 1;
+    margin-left: 340px; /* sidebar width + padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 40px);
+}
+
+input,button,select{
     width:100%;
     padding:8px;
     margin:6px 0;
     font-size:15px;
+    box-sizing: border-box;
+    font-family: 'Hind Siliguri', 'SolaimanLipi', sans-serif;
 }
-button{ cursor:pointer; }
+button{ 
+    cursor:pointer; 
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+button:hover{
+    background: #0056b3;
+}
 
 /* ===== CERTIFICATE ===== */
 #cert{
@@ -36,6 +76,7 @@ button{ cursor:pointer; }
     margin:auto;
     display:none;
     position:relative;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
 }
 
 #cert img{
@@ -47,6 +88,7 @@ button{ cursor:pointer; }
 .txt{
     position:absolute;
     color:#000;
+    font-family: 'Hind Siliguri', 'SolaimanLipi', sans-serif;
 }
 
 /* 🔧 POSITION (image অনুযায়ী adjust করতে পারো) */
@@ -79,25 +121,344 @@ button{ cursor:pointer; }
 
 /* ===== PRINT ===== */
 @media print{
-    body{padding:0;background:none;}
-    .form{display:none;}
-    #cert{display:block;}
+    body{
+        padding:0;
+        background:none;
+        display: block;
+    }
+    .sidebar{ display:none; }
+    .main-content{ 
+        margin-left: 0; 
+        display: block;
+    }
+    #cert{ 
+        display:block; 
+        box-shadow: none;
+        margin: 0 auto;
+    }
+}
+
+/* ===== LANGUAGE BUTTONS ===== */
+.language-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.language-buttons button {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+}
+
+/* ===== FONT SELECTORS ===== */
+.font-selector-container {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    border: 1px solid #dee2e6;
+}
+
+.font-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #495057;
+}
+
+/* ===== INPUT GROUPS ===== */
+.input-group {
+    margin-bottom: 5px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 14px;
+    color: #495057;
+    font-weight: 500;
+}
+
+/* ===== TEXT CONTROLS ===== */
+.text-controls-container {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    border: 1px solid #dee2e6;
+}
+
+.control-group {
+    margin-bottom: 12px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #495057;
+    font-weight: 500;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.slider-value {
+    min-width: 40px;
+    text-align: center;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.slider {
+    flex: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #dee2e6;
+    border-radius: 3px;
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+/* ===== SETTINGS BUTTONS ===== */
+.settings-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.settings-buttons button {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+}
+
+#save-btn {
+    background: #28a745;
+}
+
+#save-btn:hover {
+    background: #218838;
+}
+
+#load-btn {
+    background: #ffc107;
+    color: #212529;
+}
+
+#load-btn:hover {
+    background: #e0a800;
+}
+
+/* ===== BACKUP BUTTONS ===== */
+.backup-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.backup-buttons button {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+}
+
+#backup-btn {
+    background: #17a2b8;
+}
+
+#backup-btn:hover {
+    background: #138496;
+}
+
+#restore-btn {
+    background: #6f42c1;
+}
+
+#restore-btn:hover {
+    background: #5a32a3;
+}
+
+/* ===== CUSTOM INPUT ===== */
+.custom-input-container {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.custom-input-container input {
+    flex: 1;
+    padding: 6px;
+    font-size: 14px;
+}
+
+.custom-input-container button {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+    body {
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    .sidebar {
+        position: relative;
+        width: 100%;
+        left: 0;
+        top: 0;
+        margin-bottom: 20px;
+        height: auto;
+        max-height: 500px;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    #cert {
+        width: 100%;
+        height: auto;
+        max-width: 210mm;
+    }
+}
+
+/* ===== MODAL STYLES ===== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.backup-item {
+    padding: 10px;
+    margin: 5px 0;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.backup-item:hover {
+    background: #e9ecef;
+}
+
+.backup-item.selected {
+    background: #c3e6cb;
+    border-color: #28a745;
+}
+
+.backup-info {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+.backup-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.backup-actions button {
+    flex: 1;
 }
 </style>
 </head>
 
 <body>
-<div id="login-screen" style="position:fixed; top:0; left:15%; width:75%; height:100%; background:white; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-  <h3>অনুগ্রহ করে পাসওয়ার্ড দিন</h3>
-  <input type="password" id="pass-input" style="padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-  <button onclick="checkPass()" style="padding:10px 20px; cursor:pointer; background:#28a745; color:white; border:none; border-radius:5px;">Login</button>
-  <p id="error-msg" style="color:red; display:none;">ভুল পাসওয়ার্ড!</p>
+<div id="login-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+  <h3 id="login-title">অনুগ্রহ করে পাসওয়ার্ড দিন</h3>
+  <input type="password" id="pass-input" style="padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc; width:300px; font-family: 'Hind Siliguri', sans-serif;" placeholder="পাসওয়ার্ড লিখুন">
+  <button onclick="checkPass()" style="padding:10px 20px; cursor:pointer; background:#28a745; color:white; border:none; border-radius:5px; font-family: 'Hind Siliguri', sans-serif;" id="login-btn">লগইন</button>
+  <p id="error-msg" style="color:red; display:none; font-family: 'Hind Siliguri', sans-serif;">ভুল পাসওয়ার্ড!</p>
+</div>
+
+<!-- ব্যাকআপ মডাল -->
+<div id="backupModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modal-title">ব্যাকআপ ম্যানেজার</h3>
+      <span class="close" onclick="closeModal()">&times;</span>
+    </div>
+    <div id="modal-body">
+      <!-- ডাইনামিক কনটেন্ট -->
+    </div>
+  </div>
 </div>
 
 <script>
+// লগইন ফাংশন
 function checkPass() {
   const input = document.getElementById('pass-input').value;
-  const correctPass = "12345678"; // আপনার পাসওয়ার্ড এখানে লিখুন
+  const correctPass = "12345678";
   
   if (input === correctPass) {
     document.getElementById('login-screen').style.display = 'none';
@@ -105,66 +466,1281 @@ function checkPass() {
     document.getElementById('error-msg').style.display = 'block';
   }
 }
+
+// মডাল ফাংশন
+function openModal(title, content) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = content;
+  document.getElementById('backupModal').style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('backupModal').style.display = 'none';
+}
+
+// মডাল বাইরে ক্লিক করলে বন্ধ
+window.onclick = function(event) {
+  const modal = document.getElementById('backupModal');
+  if (event.target === modal) {
+    closeModal();
+  }
+}
+
+// গ্লোবাল ভ্যারিয়েবল
+let currentLanguage = 'english';
+let selectedBanglaFont = 'Hind Siliguri';
+let selectedEnglishFont = 'Arial';
+
+// টেক্সট কন্ট্রোল ভ্যারিয়েবল
+let fontSize = 18;
+let lineHeight = 35;
+let textIndent = 0;
+
+// প্রিডিফাইন্ড অপশনস
+const predefinedOptions = {
+  en: {
+    groups: ['Science', 'Arts', 'Commerce', 'Humanities', 'Business Studies'],
+    years: ['2024', '2023', '2022', '2021', '2020', '2019', '2018'],
+    gpa: ['5.00', '4.50', '4.00', '3.50', '3.00', '2.50', '2.00'],
+    grades: ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'D', 'F'],
+    sessions: ['2023-2024', '2022-2023', '2021-2022', '2020-2021', '2019-2020'],
+    boards: ['Dhaka', 'Rajshahi', 'Chittagong', 'Barisal', 'Sylhet', 'Comilla', 'Dinajpur', 'Jessore', 'Mymensingh']
+  },
+  bn: {
+    groups: ['বিজ্ঞান', 'মানবিক', 'ব্যবসায় শিক্ষা', 'কৃষি শিক্ষা', 'ভোকেশনাল'],
+    years: ['২০২৪', '২০২৩', '২০২২', '২০২১', '২০২০', '২০১৯', '২০১৮'],
+    gpa: ['৫.০০', '৪.৫০', '৪.০০', '৩.৫০', '৩.০০', '২.৫০', '২.০০'],
+    grades: ['এ+', 'এ', 'এ-', 'বি+', 'বি', 'বি-', 'সি+', 'সি', 'ডি', 'এফ'],
+    sessions: ['২০২৩-২০২৪', '২০২২-২০২৩', '২০২১-২০২২', '২০২০-২০২১', '২০১৯-২০২০'],
+    boards: ['ঢাকা', 'রাজশাহী', 'চট্টগ্রাম', 'বরিশাল', 'সিলেট', 'কুমিল্লা', 'দিনাজপুর', 'যশোর', 'ময়মনসিংহ']
+  }
+};
+
+// ইউজার কাস্টম অপশনস
+let userOptions = {
+  en: JSON.parse(JSON.stringify(predefinedOptions.en)),
+  bn: JSON.parse(JSON.stringify(predefinedOptions.bn))
+};
+
+// ফন্ট অপশনস
+const banglaFonts = [
+  {name: 'Hind Siliguri', display: 'হিন্দ সিলিগুড়ি (সবচেয়ে ভালো)'},
+  {name: 'Noto Sans Bengali', display: 'নোটো সান্স বাংলা'},
+  {name: 'SolaimanLipi', display: 'সোলাইমান লিপি'},
+  {name: 'Kalpurush', display: 'কল্পরুশ'}
+];
+
+const englishFonts = [
+  {name: 'Arial', display: 'Arial'},
+  {name: 'Times New Roman', display: 'Times New Roman'},
+  {name: 'Calibri', display: 'Calibri'},
+  {name: 'Georgia', display: 'Georgia'},
+  {name: 'Verdana', display: 'Verdana'},
+  {name: 'Tahoma', display: 'Tahoma'}
+];
+
+// ==================== ব্যাকআপ সিস্টেম ফাংশন ====================
+
+// ব্যাকআপ তৈরি করুন - FIXED
+function createBackup() {
+  const settings = getAllSettings();
+  const timestamp = new Date().toLocaleString();
+  const backupName = prompt(currentLanguage === 'bangla' ? 
+    'ব্যাকআপের নাম দিন:' : 
+    'Enter backup name:', 
+    `Backup_${new Date().toISOString().slice(0,10)}`
+  );
+  
+  if (!backupName) return;
+  
+  const backup = {
+    id: Date.now() + Math.random(), // ইউনিক আইডি নিশ্চিত করুন
+    name: backupName,
+    timestamp: timestamp,
+    date: new Date().toISOString(),
+    data: settings
+  };
+  
+  // বিদ্যমান ব্যাকআপ লোড করুন
+  let backups = JSON.parse(localStorage.getItem('certificateBackups') || '[]');
+  
+  // নতুন ব্যাকআপ যোগ করুন
+  backups.unshift(backup);
+  
+  // সর্বোচ্চ ২০টি ব্যাকআপ রাখুন
+  if (backups.length > 20) {
+    backups = backups.slice(0, 20);
+  }
+  
+  // সেভ করুন
+  localStorage.setItem('certificateBackups', JSON.stringify(backups));
+  
+  // ডিবাগ মেসেজ
+  console.log('ব্যাকআপ তৈরি হয়েছে:', backup);
+  console.log('মোট ব্যাকআপ:', backups.length);
+  
+  // সফলতার মেসেজ
+  if (currentLanguage === 'bangla') {
+    alert(`ব্যাকআপ তৈরি হয়েছে: ${backupName}\nমোট ব্যাকআপ: ${backups.length}`);
+  } else {
+    alert(`Backup created: ${backupName}\nTotal backups: ${backups.length}`);
+  }
+}
+
+// সব সেটিংস সংগ্রহ করুন
+function getAllSettings() {
+  return {
+    // ইনপুট ভ্যালু
+    sname: document.getElementById('sname').value,
+    fname: document.getElementById('fname').value,
+    mname: document.getElementById('mname').value,
+    group: document.getElementById('group').value,
+    year: document.getElementById('year').value,
+    gpa: document.getElementById('gpa').value,
+    grade: document.getElementById('grade').value,
+    roll: document.getElementById('roll').value,
+    reg: document.getElementById('reg').value,
+    session: document.getElementById('session').value,
+    board: document.getElementById('board').value,
+    dob: document.getElementById('dob').value,
+    issue: document.getElementById('issue').value,
+    
+    // ইউজার কাস্টম অপশনস
+    userOptions: userOptions,
+    
+    // অন্যান্য সেটিংস
+    currentLanguage: currentLanguage,
+    banglaFont: selectedBanglaFont,
+    englishFont: selectedEnglishFont,
+    fontSize: fontSize,
+    lineHeight: lineHeight,
+    textIndent: textIndent
+  };
+}
+
+// ব্যাকআপ রিস্টোর করুন
+function restoreBackup() {
+  // বিদ্যমান ব্যাকআপ লোড করুন
+  const backups = getBackups();
+  
+  if (backups.length === 0) {
+    if (currentLanguage === 'bangla') {
+      alert('কোনো ব্যাকআপ নেই! প্রথমে একটি ব্যাকআপ তৈরি করুন।');
+    } else {
+      alert('No backups found! Please create a backup first.');
+    }
+    return;
+  }
+  
+  // ব্যাকআপ তালিকা দেখান
+  let backupListHTML = '<div style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">';
+  
+  backups.forEach((backup, index) => {
+    const itemCount = backup.data ? Object.keys(backup.data).filter(k => backup.data[k]).length : 0;
+    backupListHTML += `
+      <div class="backup-item" onclick="selectBackup(this, ${index})" id="backup-${index}">
+        <strong>${backup.name || 'Unnamed Backup'}</strong>
+        <div class="backup-info">
+          ${backup.timestamp || backup.date} | 
+          ${itemCount} items
+        </div>
+      </div>
+    `;
+  });
+  
+  backupListHTML += '</div>';
+  
+  backupListHTML += `
+    <div class="backup-actions">
+      <button onclick="confirmRestore()" style="background: #28a745;">${currentLanguage === 'bangla' ? 'রিস্টোর করুন' : 'Restore'}</button>
+      <button onclick="deleteSelectedBackup()" style="background: #dc3545;">${currentLanguage === 'bangla' ? 'ডিলিট করুন' : 'Delete'}</button>
+      <button onclick="closeModal()" style="background: #6c757d;">${currentLanguage === 'bangla' ? 'বাতিল' : 'Cancel'}</button>
+    </div>
+    <input type="hidden" id="selectedBackupIndex" value="-1">
+  `;
+  
+  openModal(
+    currentLanguage === 'bangla' ? 'ব্যাকআপ নির্বাচন করুন' : 'Select Backup',
+    backupListHTML
+  );
+}
+
+// ব্যাকআপ লোড করুন - FIXED
+function getBackups() {
+  try {
+    const backupsStr = localStorage.getItem('certificateBackups');
+    if (!backupsStr) return [];
+    
+    const backups = JSON.parse(backupsStr);
+    if (!Array.isArray(backups)) return [];
+    
+    return backups;
+  } catch (error) {
+    console.error('Error loading backups:', error);
+    return [];
+  }
+}
+
+// ব্যাকআপ সিলেক্ট করুন
+function selectBackup(element, index) {
+  // সব সিলেকশন রিমুভ করুন
+  document.querySelectorAll('.backup-item').forEach(item => {
+    item.classList.remove('selected');
+  });
+  
+  // নির্বাচিত আইটেম সিলেক্ট করুন
+  element.classList.add('selected');
+  document.getElementById('selectedBackupIndex').value = index;
+}
+
+// ব্যাকআপ রিস্টোর নিশ্চিত করুন
+function confirmRestore() {
+  const selectedIndex = document.getElementById('selectedBackupIndex').value;
+  
+  if (selectedIndex === '-1') {
+    if (currentLanguage === 'bangla') {
+      alert('দয়া করে একটি ব্যাকআপ সিলেক্ট করুন!');
+    } else {
+      alert('Please select a backup!');
+    }
+    return;
+  }
+  
+  // ব্যাকআপ লোড করুন
+  const backups = getBackups();
+  const backup = backups[selectedIndex];
+  
+  if (backup && backup.data) {
+    // সেটিংস রিস্টোর করুন
+    restoreSettings(backup.data);
+    closeModal();
+    
+    if (currentLanguage === 'bangla') {
+      alert(`ব্যাকআপ রিস্টোর হয়েছে: ${backup.name}`);
+    } else {
+      alert(`Backup restored: ${backup.name}`);
+    }
+  } else {
+    if (currentLanguage === 'bangla') {
+      alert('ব্যাকআপ ডেটা পাওয়া যায়নি!');
+    } else {
+      alert('Backup data not found!');
+    }
+  }
+}
+
+// ব্যাকআপ ডিলিট করুন
+function deleteSelectedBackup() {
+  const selectedIndex = document.getElementById('selectedBackupIndex').value;
+  
+  if (selectedIndex === '-1') {
+    if (currentLanguage === 'bangla') {
+      alert('দয়া করে একটি ব্যাকআপ সিলেক্ট করুন!');
+    } else {
+      alert('Please select a backup!');
+    }
+    return;
+  }
+  
+  if (!confirm(currentLanguage === 'bangla' ? 
+    'আপনি কি এই ব্যাকআপ ডিলিট করতে চান?' : 
+    'Are you sure you want to delete this backup?')) {
+    return;
+  }
+  
+  // ব্যাকআপ লোড করুন
+  let backups = getBackups();
+  
+  // নির্বাচিত ব্যাকআপ রিমুভ করুন
+  backups.splice(selectedIndex, 1);
+  
+  // আপডেট করা ব্যাকআপ সেভ করুন
+  localStorage.setItem('certificateBackups', JSON.stringify(backups));
+  
+  // মডাল রিফ্রেশ করুন
+  restoreBackup();
+  
+  if (currentLanguage === 'bangla') {
+    alert('ব্যাকআপ ডিলিট করা হয়েছে!');
+  } else {
+    alert('Backup deleted successfully!');
+  }
+}
+
+// এক্সপোর্ট ব্যাকআপ (ফাইল হিসেবে ডাউনলোড) - FIXED
+function exportBackup() {
+  const backups = getBackups();
+  
+  console.log('Exporting backups:', backups); // ডিবাগিং
+  
+  if (backups.length === 0) {
+    // রেগুলার সেটিংস থেকে ব্যাকআপ তৈরি করুন
+    const currentSettings = getAllSettings();
+    const backup = {
+      id: Date.now(),
+      name: 'Auto Backup',
+      timestamp: new Date().toLocaleString(),
+      date: new Date().toISOString(),
+      data: currentSettings
+    };
+    
+    backups.push(backup);
+    
+    if (currentLanguage === 'bangla') {
+      alert('কোনো ব্যাকআপ নেই। বর্তমান সেটিংস থেকে একটি ব্যাকআপ তৈরি করা হচ্ছে...');
+    } else {
+      alert('No backups found. Creating a backup from current settings...');
+    }
+  }
+  
+  const backupData = {
+    version: '1.0',
+    exportDate: new Date().toISOString(),
+    totalBackups: backups.length,
+    backups: backups
+  };
+  
+  const dataStr = JSON.stringify(backupData, null, 2);
+  const dataBlob = new Blob([dataStr], {type: 'application/json'});
+  const url = URL.createObjectURL(dataBlob);
+  
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `certificate_backup_${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  if (currentLanguage === 'bangla') {
+    alert(`${backups.length}টি ব্যাকআপ এক্সপোর্ট করা হয়েছে!`);
+  } else {
+    alert(`${backups.length} backups exported successfully!`);
+  }
+}
+
+// ইম্পোর্ট ব্যাকআপ (ফাইল থেকে) - FIXED
+function importBackup() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  
+  input.onchange = function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const backupData = JSON.parse(e.target.result);
+        console.log('Imported backup data:', backupData); // ডিবাগিং
+        
+        let backupsToImport = [];
+        
+        // বিভিন্ন ফরম্যাট সাপোর্ট
+        if (backupData.backups && Array.isArray(backupData.backups)) {
+          // নতুন ফরম্যাট
+          backupsToImport = backupData.backups;
+        } else if (Array.isArray(backupData)) {
+          // পুরানো ফরম্যাট (সরাসরি অ্যারে)
+          backupsToImport = backupData;
+        } else if (backupData.data) {
+          // সিঙ্গেল ব্যাকআপ
+          backupsToImport = [backupData];
+        } else {
+          throw new Error('Invalid backup file format');
+        }
+        
+        // বিদ্যমান ব্যাকআপ লোড করুন
+        let existingBackups = getBackups();
+        
+        // নতুন ব্যাকআপ যোগ করুন
+        backupsToImport.forEach(backup => {
+          // ডেটা ভ্যালিডেশন
+          if (!backup.data) {
+            console.warn('Invalid backup item skipped:', backup);
+            return;
+          }
+          
+          // নতুন আইডি দিন
+          backup.id = Date.now() + Math.random();
+          existingBackups.unshift(backup);
+        });
+        
+        // সর্বোচ্চ ২০টি ব্যাকআপ রাখুন
+        if (existingBackups.length > 20) {
+          existingBackups = existingBackups.slice(0, 20);
+        }
+        
+        // সেভ করুন
+        localStorage.setItem('certificateBackups', JSON.stringify(existingBackups));
+        
+        if (currentLanguage === 'bangla') {
+          alert(`${backupsToImport.length}টি ব্যাকআপ ইম্পোর্ট করা হয়েছে!\nমোট ব্যাকআপ: ${existingBackups.length}`);
+        } else {
+          alert(`${backupsToImport.length} backups imported successfully!\nTotal backups: ${existingBackups.length}`);
+        }
+        
+      } catch (error) {
+        console.error('Error importing backup:', error);
+        if (currentLanguage === 'bangla') {
+          alert('ব্যাকআপ ফাইল ভুল ফরম্যাট! দয়া করে সঠিক JSON ফাইল নির্বাচন করুন।');
+        } else {
+          alert('Invalid backup file format! Please select a valid JSON file.');
+        }
+      }
+    };
+    
+    reader.readAsText(file);
+  };
+  
+  input.click();
+}
+
+// ব্যাকআপের তালিকা দেখান - নতুন ফাংশন
+function viewBackups() {
+  const backups = getBackups();
+  
+  if (backups.length === 0) {
+    if (currentLanguage === 'bangla') {
+      alert('কোনো ব্যাকআপ নেই!');
+    } else {
+      alert('No backups found!');
+    }
+    return;
+  }
+  
+  let backupListHTML = '<h4>সব ব্যাকআপ:</h4><div style="max-height: 400px; overflow-y: auto;">';
+  
+  backups.forEach((backup, index) => {
+    backupListHTML += `
+      <div style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px;">
+        <strong>${index + 1}. ${backup.name}</strong><br>
+        <small>তারিখ: ${backup.timestamp || backup.date}</small>
+      </div>
+    `;
+  });
+  
+  backupListHTML += '</div>';
+  
+  openModal(
+    currentLanguage === 'bangla' ? 'ব্যাকআপের তালিকা' : 'Backup List',
+    backupListHTML
+  );
+}
+
+// সেটিংস রিস্টোর করুন
+function restoreSettings(settings) {
+  // ইনপুট ফিল্ড লোড
+  document.getElementById('sname').value = settings.sname || '';
+  document.getElementById('fname').value = settings.fname || '';
+  document.getElementById('mname').value = settings.mname || '';
+  document.getElementById('group').value = settings.group || '';
+  document.getElementById('year').value = settings.year || '';
+  document.getElementById('gpa').value = settings.gpa || '';
+  document.getElementById('grade').value = settings.grade || '';
+  document.getElementById('roll').value = settings.roll || '';
+  document.getElementById('reg').value = settings.reg || '';
+  document.getElementById('session').value = settings.session || '';
+  document.getElementById('board').value = settings.board || '';
+  document.getElementById('dob').value = settings.dob || '';
+  document.getElementById('issue').value = settings.issue || '';
+  
+  // ইউজার কাস্টম অপশনস লোড
+  if (settings.userOptions) {
+    userOptions = settings.userOptions;
+  }
+  
+  // ভাষা সেটিংস
+  if (settings.currentLanguage) {
+    currentLanguage = settings.currentLanguage;
+    if (currentLanguage === 'bangla') {
+      changeToBangla();
+    } else {
+      changeToEnglish();
+    }
+  } else {
+    createSelectDropdowns();
+  }
+  
+  // ফন্ট সিলেক্ট
+  if (settings.banglaFont) {
+    selectedBanglaFont = settings.banglaFont;
+    document.getElementById('bangla-font-select').value = selectedBanglaFont;
+  }
+  
+  if (settings.englishFont) {
+    selectedEnglishFont = settings.englishFont;
+    document.getElementById('english-font-select').value = selectedEnglishFont;
+  }
+  
+  // টেক্সট কন্ট্রোলস
+  if (settings.fontSize) {
+    fontSize = settings.fontSize;
+    document.getElementById('font-size-slider').value = fontSize;
+    document.getElementById('font-size-value').textContent = fontSize;
+  }
+  
+  if (settings.lineHeight) {
+    lineHeight = settings.lineHeight;
+    document.getElementById('line-height-slider').value = lineHeight;
+    document.getElementById('line-height-value').textContent = lineHeight;
+  }
+  
+  if (settings.textIndent) {
+    textIndent = settings.textIndent;
+    document.getElementById('indent-slider').value = textIndent;
+    document.getElementById('indent-value').textContent = textIndent;
+  }
+  
+  // সার্টিফিকেট ফন্ট আপডেট
+  updateCertificateFont();
+  updateCertificateTextStyle();
+}
+
+// ==================== বাকি ফাংশন ====================
+
+// সিলেক্ট ড্রপডাউন তৈরি
+function createSelectDropdowns() {
+  const lang = currentLanguage === 'bangla' ? 'bn' : 'en';
+  createDropdown('group-select', userOptions[lang].groups, lang);
+  createDropdown('year-select', userOptions[lang].years, lang);
+  createDropdown('gpa-select', userOptions[lang].gpa, lang);
+  createDropdown('grade-select', userOptions[lang].grades, lang);
+  createDropdown('session-select', userOptions[lang].sessions, lang);
+  createDropdown('board-select', userOptions[lang].boards, lang);
+}
+
+function createDropdown(selectId, options, lang) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+  
+  const placeholderText = lang === 'bn' ? 'সিলেক্ট করুন...' : 'Select...';
+  select.innerHTML = `<option value="">${placeholderText}</option>`;
+  
+  options.forEach(option => {
+    const opt = document.createElement('option');
+    opt.value = option;
+    opt.textContent = option;
+    select.appendChild(opt);
+  });
+}
+
+// কাস্টম অপশন যোগ করার ফাংশন
+function addCustomOption(field, inputId, selectId) {
+  const input = document.getElementById(inputId);
+  const select = document.getElementById(selectId);
+  
+  if (input.value.trim() === '') return;
+  
+  const newOption = input.value.trim();
+  const lang = currentLanguage === 'bangla' ? 'bn' : 'en';
+  
+  if (!userOptions[lang][field].includes(newOption)) {
+    userOptions[lang][field].push(newOption);
+    userOptions[lang][field].sort();
+  }
+  
+  createDropdown(selectId, userOptions[lang][field], lang);
+  select.value = newOption;
+  updateInputFromSelect(selectId, field);
+  input.value = '';
+}
+
+// সিলেক্ট থেকে ইনপুট আপডেট
+function updateInputFromSelect(selectId, field) {
+  const select = document.getElementById(selectId);
+  let inputField = '';
+  
+  if (selectId === 'group-select') inputField = 'group';
+  else if (selectId === 'year-select') inputField = 'year';
+  else if (selectId === 'gpa-select') inputField = 'gpa';
+  else if (selectId === 'grade-select') inputField = 'grade';
+  else if (selectId === 'session-select') inputField = 'session';
+  else if (selectId === 'board-select') inputField = 'board';
+  
+  const input = document.getElementById(inputField);
+  
+  if (select && input) {
+    input.value = select.value;
+  }
+}
+
+// সেটিংস সেভ করা
+function saveSettings() {
+  const settings = getAllSettings();
+  localStorage.setItem('certificateSettings', JSON.stringify(settings));
+  
+  if (currentLanguage === 'bangla') {
+    alert('সেটিংস সেভ করা হয়েছে!');
+  } else {
+    alert('Settings saved successfully!');
+  }
+}
+
+// সেটিংস লোড করা
+function loadSettings() {
+  const savedSettings = localStorage.getItem('certificateSettings');
+  
+  if (savedSettings) {
+    try {
+      const settings = JSON.parse(savedSettings);
+      restoreSettings(settings);
+      
+      if (currentLanguage === 'bangla') {
+        alert('সেটিংস লোড করা হয়েছে!');
+      } else {
+        alert('Settings loaded successfully!');
+      }
+      
+    } catch (error) {
+      console.error('Error loading settings:', error);
+      if (currentLanguage === 'bangla') {
+        alert('সেটিংস লোড করতে সমস্যা হয়েছে!');
+      } else {
+        alert('Error loading settings!');
+      }
+    }
+  } else {
+    if (currentLanguage === 'bangla') {
+      alert('কোনো সেভ করা সেটিংস নেই!');
+    } else {
+      alert('No saved settings found!');
+    }
+  }
+}
+
+// স্লাইডার আপডেট ফাংশন
+function updateSliderValue(sliderId, valueId) {
+  const slider = document.getElementById(sliderId);
+  const valueDisplay = document.getElementById(valueId);
+  
+  if (slider && valueDisplay) {
+    if (sliderId === 'font-size-slider') fontSize = parseInt(slider.value);
+    else if (sliderId === 'line-height-slider') lineHeight = parseInt(slider.value);
+    else if (sliderId === 'indent-slider') textIndent = parseInt(slider.value);
+    
+    valueDisplay.textContent = slider.value;
+    updateCertificateTextStyle();
+  }
+}
+
+// সার্টিফিকেট টেক্সট স্টাইল আপডেট
+function updateCertificateTextStyle() {
+  const paraElement = document.querySelector('.txt.para');
+  if (paraElement) {
+    paraElement.style.fontSize = fontSize + 'px';
+    paraElement.style.lineHeight = lineHeight + 'px';
+    paraElement.style.textIndent = textIndent + 'px';
+  }
+  
+  const dateElement = document.querySelector('.txt.date');
+  if (dateElement) {
+    dateElement.style.fontSize = (fontSize - 1) + 'px';
+  }
+  
+  const otherElements = document.querySelectorAll('.txt.verify, .txt.principal');
+  otherElements.forEach(element => {
+    element.style.fontSize = fontSize + 'px';
+  });
+}
+
+// ফন্ট সিলেক্ট ড্রপডাউন তৈরি
+function createFontSelectors() {
+  const banglaSelect = document.getElementById('bangla-font-select');
+  const englishSelect = document.getElementById('english-font-select');
+  
+  banglaFonts.forEach(font => {
+    const option = document.createElement('option');
+    option.value = font.name;
+    option.textContent = font.display;
+    if (font.name === selectedBanglaFont) option.selected = true;
+    banglaSelect.appendChild(option);
+  });
+  
+  englishFonts.forEach(font => {
+    const option = document.createElement('option');
+    option.value = font.name;
+    option.textContent = font.display;
+    if (font.name === selectedEnglishFont) option.selected = true;
+    englishSelect.appendChild(option);
+  });
+}
+
+// ফন্ট পরিবর্তন
+function updateFonts() {
+  const banglaFontSelect = document.getElementById('bangla-font-select');
+  const englishFontSelect = document.getElementById('english-font-select');
+  
+  if (banglaFontSelect) {
+    selectedBanglaFont = banglaFontSelect.value;
+  }
+  
+  if (englishFontSelect) {
+    selectedEnglishFont = englishFontSelect.value;
+  }
+  
+  const fontSettings = {
+    banglaFont: selectedBanglaFont,
+    englishFont: selectedEnglishFont
+  };
+  localStorage.setItem('fontSettings', JSON.stringify(fontSettings));
+  
+  updateCertificateFont();
+  updateCertificateTextStyle();
+}
+
+// ফন্ট সেটিংস লোড করা
+function loadFontSettings() {
+  const savedSettings = localStorage.getItem('fontSettings');
+  
+  if (savedSettings) {
+    try {
+      const settings = JSON.parse(savedSettings);
+      
+      if (settings.banglaFont) {
+        selectedBanglaFont = settings.banglaFont;
+        const banglaSelect = document.getElementById('bangla-font-select');
+        if (banglaSelect) banglaSelect.value = selectedBanglaFont;
+      }
+      
+      if (settings.englishFont) {
+        selectedEnglishFont = settings.englishFont;
+        const englishSelect = document.getElementById('english-font-select');
+        if (englishSelect) englishSelect.value = selectedEnglishFont;
+      }
+    } catch (error) {
+      console.error('Error loading font settings:', error);
+    }
+  }
+}
+
+// সার্টিফিকেট ফন্ট আপডেট
+function updateCertificateFont() {
+  const isBangla = currentLanguage === 'bangla';
+  let fontFamily;
+  
+  if (isBangla) {
+    fontFamily = `'${selectedBanglaFont}', 'Hind Siliguri', 'SolaimanLipi', sans-serif`;
+  } else {
+    fontFamily = `'${selectedEnglishFont}', Arial, sans-serif`;
+  }
+  
+  const txtElements = document.querySelectorAll('#cert .txt');
+  txtElements.forEach(element => {
+    element.style.fontFamily = fontFamily;
+  });
+}
+
+// বাংলা ভাষায় পরিবর্তন
+function changeToBangla() {
+  currentLanguage = 'bangla';
+  
+  document.querySelector('.sidebar h3').textContent = 'ছাত্রের তথ্য';
+  document.getElementById('save-btn').textContent = 'সেটিংস সেভ করুন';
+  document.getElementById('load-btn').textContent = 'সেটিংস লোড করুন';
+  document.getElementById('backup-btn').textContent = 'ব্যাকআপ তৈরি করুন';
+  document.getElementById('restore-btn').textContent = 'ব্যাকআপ রিস্টোর করুন';
+  
+  document.getElementById('sname-label').textContent = 'ছাত্রের নাম:';
+  document.getElementById('fname-label').textContent = 'পিতার নাম:';
+  document.getElementById('mname-label').textContent = 'মাতার নাম:';
+  document.getElementById('group-label').textContent = 'গ্রুপ:';
+  document.getElementById('year-label').textContent = 'পাসের বছর:';
+  document.getElementById('gpa-label').textContent = 'জিপিএ:';
+  document.getElementById('grade-label').textContent = 'গ্রেড:';
+  document.getElementById('roll-label').textContent = 'রোল নম্বর:';
+  document.getElementById('reg-label').textContent = 'রেজিস্ট্রেশন নম্বর:';
+  document.getElementById('session-label').textContent = 'সেশন:';
+  document.getElementById('board-label').textContent = 'বোর্ড:';
+  document.getElementById('dob-label').textContent = 'জন্ম তারিখ:';
+  document.getElementById('issue-label').textContent = 'ইস্যু তারিখ:';
+  
+  document.getElementById('text-controls-label').textContent = 'টেক্সট কন্ট্রোল:';
+  document.getElementById('font-size-label').textContent = 'ফন্ট সাইজ:';
+  document.getElementById('line-height-label').textContent = 'লাইন গ্যাপ:';
+  document.getElementById('indent-label').textContent = 'প্যারা ইনডেন্ট:';
+  
+  document.getElementById('font-label').textContent = 'ফন্ট সিলেক্ট করুন:';
+  document.getElementById('bangla-font-label').textContent = 'বাংলা ফন্ট:';
+  document.getElementById('english-font-label').textContent = 'ইংরেজি ফন্ট:';
+  
+  document.getElementById('sname').placeholder = 'ছাত্রের নাম লিখুন';
+  document.getElementById('fname').placeholder = 'পিতার নাম লিখুন';
+  document.getElementById('mname').placeholder = 'মাতার নাম লিখুন';
+  document.getElementById('group').placeholder = 'যেমন: বিজ্ঞান, মানবিক';
+  document.getElementById('year').placeholder = 'যেমন: ২০২৩';
+  document.getElementById('gpa').placeholder = 'যেমন: ৫.০০';
+  document.getElementById('grade').placeholder = 'যেমন: এ+';
+  document.getElementById('roll').placeholder = 'যেমন: ১২৩৪৫৬';
+  document.getElementById('reg').placeholder = 'যেমন: ১২৩৪৫৬৭৮৯';
+  document.getElementById('session').placeholder = 'যেমন: ২০২১-২০২২';
+  document.getElementById('board').placeholder = 'যেমন: ঢাকা';
+  document.getElementById('dob').placeholder = 'দিন/মাস/বছর';
+  
+  document.getElementById('group-custom-input').placeholder = 'নতুন যোগ করুন';
+  document.getElementById('year-custom-input').placeholder = 'নতুন যোগ করুন';
+  document.getElementById('gpa-custom-input').placeholder = 'নতুন যোগ করুন';
+  document.getElementById('grade-custom-input').placeholder = 'নতুন যোগ করুন';
+  document.getElementById('session-custom-input').placeholder = 'নতুন যোগ করুন';
+  document.getElementById('board-custom-input').placeholder = 'নতুন যোগ করুন';
+  
+  document.getElementById('group-add-btn').textContent = '+ যোগ করুন';
+  document.getElementById('year-add-btn').textContent = '+ যোগ করুন';
+  document.getElementById('gpa-add-btn').textContent = '+ যোগ করুন';
+  document.getElementById('grade-add-btn').textContent = '+ যোগ করুন';
+  document.getElementById('session-add-btn').textContent = '+ যোগ করুন';
+  document.getElementById('board-add-btn').textContent = '+ যোগ করুন';
+  
+  const buttons = document.querySelectorAll('.sidebar button');
+  if (buttons[0]) buttons[0].textContent = 'সার্টিফিকেট তৈরি করুন';
+  if (buttons[1]) buttons[1].textContent = 'প্রিন্ট / পিডিএফ সেভ করুন';
+  
+  document.querySelector('.txt.verify').textContent = 'যাচাইকারী';
+  document.querySelector('.txt.principal').textContent = 'প্রতিষ্ঠান প্রধান';
+  
+  document.getElementById('bangla-font-label').style.display = 'block';
+  document.getElementById('bangla-font-select').style.display = 'block';
+  document.getElementById('english-font-label').style.display = 'none';
+  document.getElementById('english-font-select').style.display = 'none';
+  
+  document.getElementById('bangla-btn').style.display = 'none';
+  document.getElementById('english-btn').style.display = 'inline-block';
+  
+  createSelectDropdowns();
+  updateCertificateFont();
+  updateCertificateImage();
+}
+
+// ইংরেজি ভাষায় পরিবর্তন
+function changeToEnglish() {
+  currentLanguage = 'english';
+  
+  document.querySelector('.sidebar h3').textContent = 'Student Information';
+  document.getElementById('save-btn').textContent = 'Save Settings';
+  document.getElementById('load-btn').textContent = 'Load Settings';
+  document.getElementById('backup-btn').textContent = 'Create Backup';
+  document.getElementById('restore-btn').textContent = 'Restore Backup';
+  
+  document.getElementById('sname-label').textContent = 'Student Name:';
+  document.getElementById('fname-label').textContent = 'Father\'s Name:';
+  document.getElementById('mname-label').textContent = 'Mother\'s Name:';
+  document.getElementById('group-label').textContent = 'Group:';
+  document.getElementById('year-label').textContent = 'Passing Year:';
+  document.getElementById('gpa-label').textContent = 'GPA:';
+  document.getElementById('grade-label').textContent = 'Grade:';
+  document.getElementById('roll-label').textContent = 'Roll No:';
+  document.getElementById('reg-label').textContent = 'Registration No:';
+  document.getElementById('session-label').textContent = 'Session:';
+  document.getElementById('board-label').textContent = 'Board:';
+  document.getElementById('dob-label').textContent = 'Date of Birth:';
+  document.getElementById('issue-label').textContent = 'Issue Date:';
+  
+  document.getElementById('text-controls-label').textContent = 'Text Controls:';
+  document.getElementById('font-size-label').textContent = 'Font Size:';
+  document.getElementById('line-height-label').textContent = 'Line Height:';
+  document.getElementById('indent-label').textContent = 'Paragraph Indent:';
+  
+  document.getElementById('font-label').textContent = 'Select Font:';
+  document.getElementById('bangla-font-label').textContent = 'Bangla Font:';
+  document.getElementById('english-font-label').textContent = 'English Font:';
+  
+  document.getElementById('sname').placeholder = 'Enter student name';
+  document.getElementById('fname').placeholder = 'Enter father\'s name';
+  document.getElementById('mname').placeholder = 'Enter mother\'s name';
+  document.getElementById('group').placeholder = 'e.g., Science, Arts';
+  document.getElementById('year').placeholder = 'e.g., 2023';
+  document.getElementById('gpa').placeholder = 'e.g., 5.00';
+  document.getElementById('grade').placeholder = 'e.g., A+';
+  document.getElementById('roll').placeholder = 'e.g., 123456';
+  document.getElementById('reg').placeholder = 'e.g., 123456789';
+  document.getElementById('session').placeholder = 'e.g., 2021-2022';
+  document.getElementById('board').placeholder = 'e.g., Dhaka';
+  document.getElementById('dob').placeholder = 'DD/MM/YYYY';
+  
+  document.getElementById('group-custom-input').placeholder = 'Add new';
+  document.getElementById('year-custom-input').placeholder = 'Add new';
+  document.getElementById('gpa-custom-input').placeholder = 'Add new';
+  document.getElementById('grade-custom-input').placeholder = 'Add new';
+  document.getElementById('session-custom-input').placeholder = 'Add new';
+  document.getElementById('board-custom-input').placeholder = 'Add new';
+  
+  document.getElementById('group-add-btn').textContent = '+ Add';
+  document.getElementById('year-add-btn').textContent = '+ Add';
+  document.getElementById('gpa-add-btn').textContent = '+ Add';
+  document.getElementById('grade-add-btn').textContent = '+ Add';
+  document.getElementById('session-add-btn').textContent = '+ Add';
+  document.getElementById('board-add-btn').textContent = '+ Add';
+  
+  const buttons = document.querySelectorAll('.sidebar button');
+  if (buttons[0]) buttons[0].textContent = 'Generate Certificate';
+  if (buttons[1]) buttons[1].textContent = 'Print / Save PDF';
+  
+  document.querySelector('.txt.verify').textContent = 'Verified by';
+  document.querySelector('.txt.principal').textContent = 'Principal';
+  
+  document.getElementById('bangla-font-label').style.display = 'none';
+  document.getElementById('bangla-font-select').style.display = 'none';
+  document.getElementById('english-font-label').style.display = 'block';
+  document.getElementById('english-font-select').style.display = 'block';
+  
+  document.getElementById('english-btn').style.display = 'none';
+  document.getElementById('bangla-btn').style.display = 'inline-block';
+  
+  createSelectDropdowns();
+  updateCertificateFont();
+  updateCertificateImage();
+}
+
+// সার্টিফিকেটের ব্যাকগ্রাউন্ড ইমেজ আপডেট
+function updateCertificateImage() {
+  const certImg = document.querySelector('#cert img');
+  if (certImg) {
+    if (currentLanguage === 'bangla') {
+      certImg.src = 'testimonial-bg-bangla.jpg';
+      certImg.alt = 'Bengali Testimonial Background';
+    } else {
+      certImg.src = 'testimonial-bg-english.jpg';
+      certImg.alt = 'English Testimonial Background';
+    }
+  }
+}
+
+// পেজ লোড হলে ফন্ট সিলেক্টর তৈরি
+document.addEventListener('DOMContentLoaded', function() {
+  createFontSelectors();
+  createSelectDropdowns();
+  loadFontSettings();
+  
+  document.getElementById('font-size-slider').value = fontSize;
+  document.getElementById('line-height-slider').value = lineHeight;
+  document.getElementById('indent-slider').value = textIndent;
+  
+  document.getElementById('font-size-value').textContent = fontSize;
+  document.getElementById('line-height-value').textContent = lineHeight;
+  document.getElementById('indent-value').textContent = textIndent;
+  
+  updateCertificateFont();
+  
+  const savedSettings = localStorage.getItem('certificateSettings');
+  if (savedSettings) {
+    console.log('Saved settings found');
+  }
+  
+  // ব্যাকআপ কাউন্ট চেক
+  const backups = getBackups();
+  console.log('Available backups on load:', backups.length);
+});
 </script>
-<!-- ===== FORM ===== -->
-<div class="form">
+
+<!-- ===== SIDEBAR FORM ===== -->
+<div class="sidebar">
     <h3>Student Information</h3>
+    
+    <!-- ভাষা পরিবর্তনের বাটন -->
+    <div class="language-buttons">
+        <button id="bangla-btn" onclick="changeToBangla()">বাংলা</button>
+        <button id="english-btn" onclick="changeToEnglish()" style="display: none;">English</button>
+    </div>
 
-    <input id="sname" placeholder="Student Name">
-    <input id="fname" placeholder="Father's Name">
-    <input id="mname" placeholder="Mother's Name">
-    <input id="group" placeholder="Group">
-    <input id="year" placeholder="Passing Year">
-    <input id="gpa" placeholder="GPA">
-    <input id="grade" placeholder="Grade (A+)">
-    <input id="roll" placeholder="Roll No">
-    <input id="reg" placeholder="Registration No">
-    <input id="session" placeholder="Session">
-    <input id="board" placeholder="Board">
-    <input id="dob" placeholder="Date of Birth (DD/MM/YYYY)">
-    <input id="issue" type="date">
+    <!-- সেটিংস সেভ/লোড বাটন -->
+    <div class="settings-buttons">
+        <button id="save-btn" onclick="saveSettings()" style="background: #28a745;">Save Settings</button>
+        <button id="load-btn" onclick="loadSettings()" style="background: #ffc107; color: #212529;">Load Settings</button>
+    </div>
 
-    <button onclick="generate()">Generate</button>
+    <!-- ব্যাকআপ সিস্টেম বাটন -->
+    <div class="backup-buttons">
+        <button id="backup-btn" onclick="createBackup()" style="background: #17a2b8;">Create Backup</button>
+        <button id="restore-btn" onclick="restoreBackup()" style="background: #6f42c1;">Restore Backup</button>
+    </div>
+
+    <!-- ফন্ট সিলেক্টর -->
+    <div class="font-selector-container">
+        <span id="font-label" class="font-label">Select Font:</span>
+        
+        <!-- বাংলা ফন্ট সিলেক্টর -->
+        <div>
+            <span id="bangla-font-label" class="font-label" style="display: none;">Bangla Font:</span>
+            <select id="bangla-font-select" onchange="updateFonts();" style="display: none;">
+                <!-- JavaScript দিয়ে অপশনস যুক্ত হবে -->
+            </select>
+        </div>
+        
+        <!-- ইংরেজি ফন্ট সিলেক্টর -->
+        <div>
+            <span id="english-font-label" class="font-label">English Font:</span>
+            <select id="english-font-select" onchange="updateFonts();">
+                <!-- JavaScript দিয়ে অপশনস যুক্ত হবে -->
+            </select>
+        </div>
+    </div>
+    
+    <!-- টেক্সট কন্ট্রোল স্লাইডার -->
+    <div class="text-controls-container">
+        <span id="text-controls-label" class="font-label">Text Controls:</span>
+        
+        <!-- ফন্ট সাইজ স্লাইডার -->
+        <div class="control-group">
+            <label id="font-size-label">Font Size:</label>
+            <div class="slider-container">
+                <input type="range" id="font-size-slider" class="slider" min="12" max="28" value="18" 
+                       oninput="updateSliderValue('font-size-slider', 'font-size-value')">
+                <span id="font-size-value" class="slider-value">18</span>
+            </div>
+        </div>
+        
+        <!-- লাইন হাইট স্লাইডার -->
+        <div class="control-group">
+            <label id="line-height-label">Line Height:</label>
+            <div class="slider-container">
+                <input type="range" id="line-height-slider" class="slider" min="20" max="50" value="35" 
+                       oninput="updateSliderValue('line-height-slider', 'line-height-value')">
+                <span id="line-height-value" class="slider-value">35</span>
+            </div>
+        </div>
+        
+        <!-- প্যারা ইনডেন্ট স্লাইডার -->
+        <div class="control-group">
+            <label id="indent-label">Paragraph Indent:</label>
+            <div class="slider-container">
+                <input type="range" id="indent-slider" class="slider" min="0" max="50" value="0" 
+                       oninput="updateSliderValue('indent-slider', 'indent-value')">
+                <span id="indent-value" class="slider-value">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label id="sname-label">Student Name:</label>
+        <input id="sname" placeholder="Enter student name">
+    </div>
+    
+    <div class="input-group">
+        <label id="fname-label">Father's Name:</label>
+        <input id="fname" placeholder="Enter father's name">
+    </div>
+    
+    <div class="input-group">
+        <label id="mname-label">Mother's Name:</label>
+        <input id="mname" placeholder="Enter mother's name">
+    </div>
+    
+    <!-- গ্রুপ সিলেক্টর -->
+    <div class="input-group">
+        <label id="group-label">Group:</label>
+        <div style="display: flex; gap: 5px;">
+            <select id="group-select" onchange="updateInputFromSelect('group-select', 'groups')" style="flex: 1;">
+                <option value="">Select...</option>
+            </select>
+            <input id="group" placeholder="e.g., Science, Arts" style="flex: 2;">
+            <div class="custom-input-container">
+                <input id="group-custom-input" placeholder="Add new" style="flex: 1;">
+                <button id="group-add-btn" onclick="addCustomOption('groups', 'group-custom-input', 'group-select')">+ Add</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- পাসের বছর সিলেক্টর -->
+    <div class="input-group">
+        <label id="year-label">Passing Year:</label>
+        <div style="display: flex; gap: 5px;">
+            <select id="year-select" onchange="updateInputFromSelect('year-select', 'years')" style="flex: 1;">
+                <option value="">Select...</option>
+            </select>
+            <input id="year" placeholder="e.g., 2023" style="flex: 2;">
+            <div class="custom-input-container">
+                <input id="year-custom-input" placeholder="Add new" style="flex: 1;">
+                <button id="year-add-btn" onclick="addCustomOption('years', 'year-custom-input', 'year-select')">+ Add</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- জিপিএ সিলেক্টর -->
+    <div class="input-group">
+        <label id="gpa-label">GPA:</label>
+        <div style="display: flex; gap: 5px;">
+            <select id="gpa-select" onchange="updateInputFromSelect('gpa-select', 'gpa')" style="flex: 1;">
+                <option value="">Select...</option>
+            </select>
+            <input id="gpa" placeholder="e.g., 5.00" style="flex: 2;">
+            <div class="custom-input-container">
+                <input id="gpa-custom-input" placeholder="Add new" style="flex: 1;">
+                <button id="gpa-add-btn" onclick="addCustomOption('gpa', 'gpa-custom-input', 'gpa-select')">+ Add</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- গ্রেড সিলেক্টর -->
+    <div class="input-group">
+        <label id="grade-label">Grade:</label>
+        <div style="display: flex; gap: 5px;">
+            <select id="grade-select" onchange="updateInputFromSelect('grade-select', 'grades')" style="flex: 1;">
+                <option value="">Select...</option>
+            </select>
+            <input id="grade" placeholder="e.g., A+" style="flex: 2;">
+            <div class="custom-input-container">
+                <input id="grade-custom-input" placeholder="Add new" style="flex: 1;">
+                <button id="grade-add-btn" onclick="addCustomOption('grades', 'grade-custom-input', 'grade-select')">+ Add</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="input-group">
+        <label id="roll-label">Roll No:</label>
+        <input id="roll" placeholder="e.g., 123456">
+    </div>
+    
+    <div class="input-group">
+        <label id="reg-label">Registration No:</label>
+        <input id="reg" placeholder="e.g., 123456789">
+    </div>
+    
+    <!-- সেশন সিলেক্টর -->
+    <div class="input-group">
+        <label id="session-label">Session:</label>
+        <div style="display: flex; gap: 5px;">
+            <select id="session-select" onchange="updateInputFromSelect('session-select', 'sessions')" style="flex: 1;">
+                <option value="">Select...</option>
+            </select>
+            <input id="session" placeholder="e.g., 2021-2022" style="flex: 2;">
+            <div class="custom-input-container">
+                <input id="session-custom-input" placeholder="Add new" style="flex: 1;">
+                <button id="session-add-btn" onclick="addCustomOption('sessions', 'session-custom-input', 'session-select')">+ Add</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- বোর্ড সিলেক্টর -->
+    <div class="input-group">
+        <label id="board-label">Board:</label>
+        <div style="display: flex; gap: 5px;">
+            <select id="board-select" onchange="updateInputFromSelect('board-select', 'boards')" style="flex: 1;">
+                <option value="">Select...</option>
+            </select>
+            <input id="board" placeholder="e.g., Dhaka" style="flex: 2;">
+            <div class="custom-input-container">
+                <input id="board-custom-input" placeholder="Add new" style="flex: 1;">
+                <button id="board-add-btn" onclick="addCustomOption('boards', 'board-custom-input', 'board-select')">+ Add</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="input-group">
+        <label id="dob-label">Date of Birth:</label>
+        <input id="dob" placeholder="DD/MM/YYYY">
+    </div>
+    
+    <div class="input-group">
+        <label id="issue-label">Issue Date:</label>
+        <input id="issue" type="date">
+    </div>
+
+    <button onclick="generate()">Generate Certificate</button>
     <button onclick="window.print()">Print / Save PDF</button>
+    
+    <!-- এক্সট্রা ব্যাকআপ অপশন -->
+    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+        <button onclick="exportBackup()" style="background: #20c997; margin-bottom: 5px;">Export Backup File</button>
+        <button onclick="importBackup()" style="background: #fd7e14;">Import Backup File</button>
+        <button onclick="viewBackups()" style="background: #6f42c1; margin-top: 5px;">View All Backups</button>
+    </div>
 </div>
 
-<!-- ===== CERTIFICATE ===== -->
-<div id="cert">
-    <img src="testimonial-bg.jpg" alt="Testimonial Background">
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-content">
+    <!-- ===== CERTIFICATE ===== -->
+    <div id="cert">
+        <!-- ডিফল্ট ইংরেজি ইমেজ -->
+        <img src="testimonial-bg-english.jpg" alt="English Testimonial Background">
 
-    <div class="txt para" id="d_para"></div>
+        <div class="txt para" id="d_para"></div>
 
-    <div class="txt date" id="d_date"></div>
-    <div class="txt verify">Verified by</div>
-    <div class="txt principal">Principal</div>
+        <div class="txt date" id="d_date"></div>
+        <div class="txt verify">Verified by</div>
+        <div class="txt principal">Principal</div>
+    </div>
 </div>
 
 <script>
-function formatDate(d){
-    return d ? new Date(d).toLocaleDateString('en-GB') : '';
+// তারিখ ফরম্যাট ফাংশন
+function formatDate(d, isBangla = false){
+    if (!d) return '';
+    
+    const date = new Date(d);
+    
+    if (isBangla) {
+        const banglaMonths = [
+            'জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন',
+            'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
+        ];
+        
+        const day = date.getDate();
+        const month = banglaMonths[date.getMonth()];
+        const year = date.getFullYear();
+        
+        return `${day} ${month} ${year}`;
+    } else {
+        return date.toLocaleDateString('en-GB');
+    }
 }
 
+// সার্টিফিকেট জেনারেট ফাংশন
 function generate(){
     document.getElementById("cert").style.display="block";
-
-    d_para.innerHTML =
-    `<b>This is to certify that ${sname.value}</b>, Father's name:
-    <b>${fname.value}</b>, Mother's name: <b>${mname.value}</b>,
-    was a student of this college. She passed the
-    <b>Higher Secondary Certificate Examination</b> held in the year
-    <b>${year.value}</b> from <b>${group.value}</b> group.
-    She obtained <b>GPA ${gpa.value}, Grade ${grade.value}</b>,
-    bearing Roll No. <b>${roll.value}</b>,
-    Reg. No. <b>${reg.value}</b>,
-    Session <b>${session.value}</b>,
-    Board <b>${board.value}</b>,
-    Date of Birth <b>${dob.value}</b>.
-    While studying in this college, she did not participate in any work
-    subversive of the state or the college.
-    <br><br>
-    <b>I wish her success and prosperity in life.</b>`;
-
-    d_date.innerText = "Date: " + formatDate(issue.value);
+    
+    updateCertificateImage();
+    updateCertificateFont();
+    
+    const isBangla = currentLanguage === 'bangla';
+    
+    if (isBangla) {
+        d_para.innerHTML =
+        `এই মর্মে প্রত্যয়ন করা যাচ্ছে যে, ${sname.value}, পিতার নাম:
+        ${fname.value}, মাতার নাম: ${mname.value}
+        এই কলেজের একজন শিক্ষার্থী ছিল। সে
+        উচ্চ মাধ্যমিক সার্টিফিকেট পরীক্ষায় ${year.value} সালে
+        ${group.value} বিভাগ থেকে উত্তীর্ণ হয়।
+        তার জিপিএ ${gpa.value}, গ্রেড ${grade.value},
+        রোল নং: ${roll.value},
+        রেজি নং: ${reg.value},
+        সেশন: ${session.value},
+        বোর্ড: ${board.value},
+        জন্ম তারিখ: ${dob.value}।
+        এই কলেজে অধ্যয়নকালে সে রাষ্ট্র বা প্রতিষ্ঠান বিরোধী কোনও কাজে অংশগ্রহণ করেনি।
+        <br><br>
+        <span style="display: inline-block; margin-left: ${textIndent}px;">আমি তার জীবনের সফলতা ও সমৃদ্ধি কামনা করি।</span>`;
+        
+        const formattedDate = formatDate(issue.value, true);
+        d_date.innerText = "তারিখ: " + formattedDate;
+        
+        document.querySelector('.txt.verify').textContent = 'যাচাইকারী';
+        document.querySelector('.txt.principal').textContent = 'অধ্যক্ষ';
+    } else {
+        d_para.innerHTML =
+        `This is to certify that ${sname.value}, Father's name:
+        ${fname.value}, Mother's name: ${mname.value},
+        was a student of this college. She passed the
+        Higher Secondary Certificate Examination held in the year
+        ${year.value} from ${group.value} group.
+        She obtained GPA ${gpa.value}, Grade ${grade.value},
+        bearing Roll No. ${roll.value},
+        Reg. No. ${reg.value},
+        Session ${session.value},
+        Board ${board.value},
+        Date of Birth ${dob.value}.
+        While studying in this college, she did not participate in any work
+        subversive of the state or the college.
+        <br><br>
+        <span style="display: inline-block; margin-left: ${textIndent}px;">I wish her success and prosperity in life.</span>`;
+        
+        const formattedDate = formatDate(issue.value, false);
+        d_date.innerText = "Date: " + formattedDate;
+        
+        document.querySelector('.txt.verify').textContent = 'Verified by';
+        document.querySelector('.txt.principal').textContent = 'Principal';
+    }
+    
+    updateCertificateTextStyle();
 }
 </script>
 
